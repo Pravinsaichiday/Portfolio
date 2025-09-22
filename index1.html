@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--! Customize Here !-->
+    <title>Pravin Sai Chiday | Professional Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #111;
+            --text-color: #F5F5F7;
+            --primary-color: #7C0902; /* Barn Red */
+            --secondary-color-t: rgba(29, 29, 31, 0.7); /* Apple Dark Grey Transparent */
+            --border-color: rgba(124, 9, 2, 0.25);
+            --text-light: #A1A1A6;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --glow-color: rgba(124, 9, 2, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 15% 15%, rgba(124, 9, 2, 0.1) 0%, transparent 25%),
+                              radial-gradient(circle at 85% 75%, rgba(29, 29, 31, 0.5) 0%, transparent 30%);
+        }
+        
+        /* --- General Styling & Layout --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        h2 {
+            position: relative;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        section {
+            padding: 120px 0;
+        }
+
+        /* --- Animations & Effects --- */
+        .reveal {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        /* --- Header / Navbar --- */
+        #main-nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            background-color: rgba(17, 17, 17, 0.7);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            transition: top 0.4s ease-in-out;
+        }
+
+        #main-nav .container { display: flex; justify-content: space-between; align-items: center; }
+        #main-nav .logo { font-size: 1.8rem; font-weight: 700; color: var(--primary-color); text-decoration: none; transition: transform 0.3s; }
+        #main-nav .logo:hover { transform: rotate(-10deg) scale(1.1); }
+        #main-nav ul { display: flex; list-style: none; }
+        #main-nav ul li { margin-left: 40px; }
+        #main-nav ul li a { text-decoration: none; color: var(--text-light); font-weight: 500; transition: color 0.3s ease; position: relative; padding: 5px 0; font-size: 1rem; }
+        #main-nav ul li a:hover { color: var(--text-color); }
+
+        /* --- Hero Section --- */
+        #hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+        #hero .container { max-width: 900px; }
+        #hero p.intro { color: var(--primary-color); font-size: 1.2rem; margin-bottom: 1rem; font-weight: 500;}
+        #hero h1 { font-size: clamp(48px, 8vw, 80px); line-height: 1.05; font-weight: 700; }
+        #hero h1.subtitle { color: var(--text-light); margin-bottom: 2rem; }
+        #hero .hero-text { color: var(--text-light); font-size: 1.2rem; max-width: 650px; margin: 0 auto; }
+        .line { overflow: hidden; }
+        .line span { display: inline-block; }
+
+        /* --- Glassmorphism Card --- */
+        .glass-card {
+            background: var(--secondary-color-t);
+            backdrop-filter: saturate(180%) blur(15px);
+            -webkit-backdrop-filter: saturate(180%) blur(15px);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 3.5rem;
+            box-shadow: 0 15px 30px -15px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            position: relative;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(124, 9, 2, 0.4);
+            box-shadow: 0 20px 30px -15px var(--shadow-color), 0 0 25px var(--glow-color);
+        }
+
+        /* --- About Section --- */
+        #about .profile-card { display: flex; align-items: flex-start; gap: 3rem; }
+        #about .profile-text { flex: 2; color: var(--text-light); font-size: 1.1rem; }
+        #about .profile-skills { flex: 1; }
+        #about .skills-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; font-size: 1rem; }
+        #about .skills-list li { position: relative; padding-left: 25px; }
+        #about .skills-list li::before { content: '▹'; position: absolute; left: 0; color: var(--primary-color); font-size: 1.2rem; top: -2px; }
+        
+        /* --- Projects Section --- */
+        .project-item h3 { color: var(--text-color); font-size: 2rem; margin-bottom: 0.5rem; }
+        .project-item .award { font-style: normal; font-weight: 500; color: var(--primary-color); margin-bottom: 2rem; display: inline-block; background: var(--glow-color); padding: 8px 15px; border-radius: 30px; }
+        .project-item h4 { margin-top: 2rem; margin-bottom: 1rem; color: var(--text-color); font-weight: 600; font-size: 1.1rem; }
+        .project-item p, .project-item ul { color: var(--text-light); margin-bottom: 1rem; font-size: 1.1rem; }
+        .project-item ul { list-style: none; }
+        .project-item ul li { position: relative; padding-left: 25px; margin-bottom: 8px; }
+        .project-item ul li::before { content: '✓'; font-family: sans-serif; position: absolute; left: 0; color: var(--primary-color); font-size: 1.1rem; top: -1px; }
+        
+        /* --- Contact Section --- */
+        #contact .contact-content { text-align: center; max-width: 600px; margin: 0 auto; }
+        #contact p { color: var(--text-light); margin-bottom: 2.5rem; font-size: 1.2rem; }
+        #contact .main-cta {
+            color: var(--text-color);
+            background-color: var(--primary-color);
+            text-decoration: none;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            font-size: 1.1rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+        #contact .main-cta:hover { transform: scale(1.05); opacity: 0.9; }
+        .contact-socials { display: flex; justify-content: center; align-items: center; gap: 3rem; margin-top: 3.5rem; }
+        .contact-socials a { color: var(--text-light); text-decoration: none; transition: color 0.3s ease, transform 0.3s ease; }
+        .contact-socials a:hover { color: var(--text-color); transform: translateY(-5px); }
+        .contact-socials svg { width: 28px; height: 28px; }
+
+        /* --- Footer --- */
+        footer { text-align: center; padding: 3rem 0; color: var(--text-light); font-size: 0.9rem; position: relative; z-index: 2;}
+        
+        @media (max-width: 768px) {
+            h1 { font-size: clamp(40px, 10vw, 48px) !important; }
+            #main-nav ul { display: none; }
+            #about .profile-card { flex-direction: column; }
+            .glass-card { padding: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="main-nav">
+        <div class="container">
+            <!--! Customize Here !-->
+            <a href="#" class="logo">PSC</a>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero">
+            <div class="container">
+                <!--! Customize Here !-->
+                <p class="intro line"><span>Hi, my name is</span></p>
+                <h1 class="line"><span>Pravin Sai Chiday.</span></h1>
+                <h1 class="subtitle line"><span>I build things for the web & beyond.</span></h1>
+                <p class="hero-text reveal">
+                    I'm a B.Tech 2nd year student and electronics enthusiast specializing in creating innovative solutions. 
+                    Currently focused on embedded systems and exploring the world of IoT.
+                </p>
+            </div>
+        </section>
+
+        <section id="about" class="reveal">
+            <div class="container">
+                <h2>About Me</h2>
+                <div class="glass-card">
+                    <div class="profile-card">
+                        <div class="profile-text">
+                            <!--! Customize Here !-->
+                            <p>
+                                Hello! I'm Pravin Sai Chiday, a passionate tinkerer and problem-solver with a strong foundation in electronics and programming. My journey began with a simple curiosity for how things work, which quickly evolved into building practical projects like the security system showcased below.
+                            </p>
+                            <p style="margin-top: 1rem;">
+                                I enjoy bridging the gap between hardware and software, bringing ideas to life through code and circuits. I am proficient in C/C++ for microcontrollers and am expanding my skills into web technologies to create comprehensive IoT solutions.
+                            </p>
+                        </div>
+                        <div class="profile-skills">
+                            <p>Some technologies I've worked with:</p>
+                            <!--! Customize Here !-->
+                            <ul class="skills-list">
+                                <li>Arduino (C/C++)</li>
+                                <li>Embedded Systems</li>
+                                <li>Python</li>
+                                <li>HTML & CSS</li>
+                                <li>JavaScript (ES6+)</li>
+                                <li>IoT Concepts</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="reveal">
+            <div class="container">
+                <h2>My Projects</h2>
+                <div class="glass-card project-item">
+                    <h3>Ultrasonic Security System</h3>
+                    <p class="award">🏆 Awarded Best Project</p>
+                    
+                    <h4>Overview & Approach</h4>
+                    <p>
+                        This project is a cost-effective, Arduino-based home security system. To address the high cost of traditional systems, it uses an HC-SR04 ultrasonic sensor to detect motion. If an object breaches a set distance threshold, the Arduino triggers a buzzer or LED, providing an immediate and reliable alert for small spaces.
+                    </p>
+
+                    <h4>Key Features</h4>
+                    <ul>
+                        <li>Real-time motion detection via ultrasonic waves.</li>
+                        <li>Instant sound/light alerts upon intrusion.</li>
+                        <li>Adjustable sensitivity through simple code modification.</li>
+                        <li>Compact, energy-efficient, and easily expandable design.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="reveal">
+            <div class="container">
+                <div class="contact-content">
+                    <h2>Get In Touch</h2>
+                    <p>
+                        I'm always open to discussing new projects, creative ideas, or opportunities. My inbox is always open, so feel free to reach out.
+                    </p>
+                    <!--! Customize Here !-->
+                    <a href="mailto:your.email@example.com" class="main-cta">Say Hello</a>
+                    <div class="contact-socials">
+                        <a href="https://www.linkedin.com/in/yourprofile" target="_blank" title="LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        </a>
+                        <a href="https://github.com/yourprofile" target="_blank" title="GitHub">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <!--! Customize Here !-->
+            <p>&copy; 2025 Pravin Sai Chiday. Designed & Built with passion.</p>
+        </div>
+    </footer>
+    
+    <!-- GSAP for Professional Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- GSAP Animations ---
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero Section Text Animation
+            gsap.from(".line span", {
+                y: 100,
+                ease: "power4.out",
+                delay: 0.5,
+                duration: 1.8,
+                stagger: { amount: 0.3 },
+            });
+            gsap.from(".hero-text", { opacity: 0, y: 20, ease: "power4.out", delay: 1.5, duration: 1 });
+
+            // General Section Reveal Animations
+            const sections = document.querySelectorAll('.reveal');
+            sections.forEach(section => {
+                gsap.fromTo(section, 
+                    { autoAlpha: 0, y: 50 }, 
+                    {
+                        autoAlpha: 1,
+                        y: 0,
+                        duration: 1.2,
+                        ease: 'power4.out',
+                        scrollTrigger: {
+                            trigger: section,
+                            start: 'top 80%',
+                            toggleActions: 'play none none none'
+                        }
+                    }
+                );
+            });
+
+            // --- Navbar Hide/Show on Scroll ---
+            const showAnim = gsap.from('#main-nav', { 
+                yPercent: -100,
+                paused: true,
+                duration: 0.2
+            }).progress(1);
+
+            ScrollTrigger.create({
+                start: "top top",
+                end: 99999,
+                onUpdate: (self) => {
+                    self.direction === -1 ? showAnim.play() : showAnim.reverse()
+                }
+            });
+        });
+    </script>
+</body>
+</html>
