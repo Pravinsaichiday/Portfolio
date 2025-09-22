@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pravin Sai Chiday - Professional Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the new dark theme */
+        @keyframes background-pan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes subtle-glow {
+            0%, 100% { box-shadow: 0 0 20px -5px var(--glow-color); }
+            50% { box-shadow: 0 0 25px 0px var(--glow-color); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes stars {
+            0% { background-position: 0 0; }
+            100% { background-position: -10000px 5000px; }
+        }
+        @keyframes slide-up-fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #0A092D;
+            color: #edf2f4;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        /* Starry Background Effect */
+        #star-bg, #star-bg-2 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-repeat: repeat;
+            animation: stars 200s linear infinite;
+        }
+        #star-bg {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900"><circle fill="%231B1A45" cx="100" cy="100" r="1.5"/><circle fill="%231B1A45" cx="300" cy="400" r="1"/><circle fill="%231B1A45" cx="600" cy="200" r="1.2"/><circle fill="%231B1A45" cx="900" cy="500" r="1"/><circle fill="%231B1A45" cx="1200" cy="300" r="1.1"/><circle fill="%231B1A45" cx="1500" cy="600" r="1.3"/></svg>');
+        }
+        #star-bg-2 {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900"><circle fill="%238B949E" cx="200" cy="600" r="0.8"/><circle fill="%238B949E" cx="500" cy="800" r="0.6"/><circle fill="%238B949E" cx="800" cy="100" r="0.7"/><circle fill="%238B949E" cx="1100" cy="700" r="0.5"/><circle fill="%238B949E" cx="1400" cy="200" r="0.9"/></svg>');
+            animation-duration: 400s;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        .nav-link {
+            @apply px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300;
+        }
+        .nav-link.active {
+            @apply text-white font-semibold;
+        }
+        .glass-card {
+            @apply bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60 border border-white/10;
+        }
+        .section-title {
+            @apply text-3xl md:text-4xl font-bold text-white mb-12 text-center;
+        }
+        .skill-tag {
+            @apply bg-white/10 text-gray-200 text-sm font-medium px-5 py-2 rounded-full transition-all duration-300 hover:bg-accent-purple hover:text-white cursor-pointer;
+            animation: float 6s ease-in-out infinite;
+        }
+        .project-card {
+            @apply bg-[#1B1A45]/60 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .project-card:hover {
+            transform: scale(1.05);
+        }
+        .project-card:active {
+            transform: scale(1.02);
+            transition-duration: 0.1s;
+        }
+        /* Dynamic Border on Hover */
+        .project-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 1rem; /* 16px */
+            padding: 2px;
+            background: linear-gradient(45deg, var(--tw-gradient-from), var(--tw-gradient-to));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .project-card:hover::before {
+            opacity: 1;
+        }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Modal Styles */
+        .modal-overlay {
+            @apply fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity duration-300;
+        }
+        .modal-content {
+            @apply bg-secondary-bg rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 border border-white/10 transform transition-transform duration-300;
+        }
+        .modal-content.animated {
+            animation: slide-up-fade-in 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+        .modal-content .stagger-in {
+            opacity: 0;
+            animation: slide-up-fade-in 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+        /* Cursor Glow Effect */
+        #cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, rgba(147, 51, 234, 0) 60%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+            z-index: 9999;
+        }
+        /* 3D Tilt Effect Container */
+        .tilt-container {
+            perspective: 1000px;
+        }
+        .tilt-element {
+            transition: transform 0.1s ease-out;
+        }
+    </style>
+    <script>
+        // Define custom colors for Tailwind CSS
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-bg': '#0A092D',
+                        'secondary-bg': '#1B1A45',
+                        'primary-text': '#F0F2F5',
+                        'secondary-text': '#8B949E',
+                        'accent-purple': '#9333ea',
+                        'accent-fuchsia': '#d946ef',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-primary-bg text-primary-text">
+
+    <!-- Starry Background -->
+    <div id="star-bg"></div>
+    <div id="star-bg-2"></div>
+
+    <!-- Cursor Glow Div -->
+    <div id="cursor-glow"></div>
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-primary-bg/50 backdrop-blur-md fixed top-0 left-0 right-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-bold text-white tracking-wider">PSC</a>
+            <div class="hidden md:flex space-x-2" id="nav-menu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#portfolio" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden focus:outline-none">
+                <i class="fas fa-bars text-2xl text-white"></i>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-secondary-bg">
+            <a href="#home" class="block py-3 px-4 text-sm hover:bg-accent-purple">Home</a>
+            <a href="#about" class="block py-3 px-4 text-sm hover:bg-accent-purple">About</a>
+            <a href="#portfolio" class="block py-3 px-4 text-sm hover:bg-accent-purple">Projects</a>
+            <a href="#contact" class="block py-3 px-4 text-sm hover:bg-accent-purple">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="min-h-screen flex items-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-bg via-secondary-bg to-primary-bg animation-pan" style="animation: background-pan 15s ease infinite;"></div>
+            <div class="absolute inset-0 bg-black/30"></div>
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 leading-tight">Pravin Sai Chiday</h1>
+                <p class="text-lg md:text-xl text-secondary-text mb-8 max-w-3xl mx-auto">2nd-year B.Tech CSE student at KLH University, interested in Programming and new technology</p>
+                <a href="#portfolio" class="bg-gradient-to-r from-accent-purple to-accent-fuchsia text-white font-bold py-4 px-10 rounded-full hover:scale-105 transition-transform duration-300 shadow-lg">
+                    Explore My Work
+                </a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-24 fade-in-section">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">About Me</h2>
+                <div class="flex flex-col md:flex-row items-center gap-16">
+                    <!-- Profile Card -->
+                    <div class="w-full md:w-1/3 tilt-container">
+                         <div class="glass-card rounded-2xl text-center p-8 shadow-2xl tilt-element">
+                            <img class="w-40 h-40 rounded-full mx-auto mb-4 border-4 border-accent-purple" src="https://placehold.co/200x200/0A092D/F0F2F5?text=PSC" alt="Profile Picture">
+                            <h3 class="text-2xl font-bold text-white">Pravin Sai Chiday</h3>
+                            <p class="text-secondary-text">B.Tech CSE Student | KLH University</p>
+                            <div class="flex justify-center space-x-6 mt-6">
+                                <a href="https://github.com/ChidayPravinSai" target="_blank" class="text-secondary-text hover:text-accent-purple transition-colors"><i class="fab fa-github fa-2x"></i></a>
+                                <a href="https://www.linkedin.com/in/pravin-sai-chiday-6bb9b7367/" target="_blank" class="text-secondary-text hover:text-accent-purple transition-colors"><i class="fab fa-linkedin fa-2x"></i></a>
+                                <a href="your-link-here" target="_blank" class="text-secondary-text hover:text-accent-purple transition-colors"><i class="fab fa-twitter fa-2x"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Bio & Skills -->
+                    <div class="w-full md:w-2/3">
+                        <h3 class="text-3xl font-semibold text-white mb-4">Innovating One Project at a Time</h3>
+                        <p class="text-secondary-text mb-8 leading-relaxed">
+                            As a dedicated Computer Science Engineering student, I am driven by a passion for solving real-world problems through technology. I have a strong foundation in programming and a keen interest in the Internet of Things and practical design. I thrive in collaborative environments, am always eager to take on new challenges, and enjoy leading projects from concept to completion.
+                        </p>
+                        <h3 class="text-3xl font-semibold text-white mb-6">Core Competencies</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <span class="skill-tag" style="animation-delay: 0s;">C</span>
+                            <span class="skill-tag" style="animation-delay: 0.2s;">Java</span>
+                            <span class="skill-tag" style="animation-delay: 0.4s;">Python</span>
+                            <span class="skill-tag" style="animation-delay: 0.6s;">HTML</span>
+                            <span class="skill-tag" style="animation-delay: 0.8s;">IoT Development</span>
+                            <span class="skill-tag" style="animation-delay: 1s;">Leadership</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="py-24 bg-secondary-bg/30 fade-in-section">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">Featured Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    
+                    <!-- Project 1: EchoSense (Best Project) -->
+                    <div class="project-card flex flex-col tilt-container from-accent-purple to-accent-fuchsia" style="--glow-color: #d946ef; animation: subtle-glow 3s infinite ease-in-out;">
+                        <div class="p-8 flex-grow tilt-element">
+                            <div class="bg-gradient-to-r from-accent-purple to-accent-fuchsia text-white text-xs font-bold inline-block px-3 py-1 rounded-full mb-4 shadow-lg">
+                                <i class="fas fa-star mr-1"></i>Best Project Award
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2 text-white">EchoSense Security System</h3>
+                            <p class="text-sm text-secondary-text mb-4">Internet Of Things & Sensors</p>
+                            <p class="text-primary-text mb-4">A cost-effective, DIY home security solution using an Arduino and HC-SR04 ultrasonic sensor to detect motion and activate alerts.</p>
+                        </div>
+                        <div class="p-6 bg-black/20 mt-auto">
+                            <button data-project="echosense" class="learn-more-btn font-semibold text-accent-purple hover:text-accent-fuchsia transition-colors">Learn More &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- Project 2: Athlete Hub -->
+                    <div class="project-card flex flex-col tilt-container from-accent-purple to-accent-fuchsia">
+                         <div class="p-8 flex-grow tilt-element">
+                            <h3 class="text-2xl font-bold mb-2 text-white">Rural Sports Initiative</h3>
+                            <p class="text-sm text-secondary-text mb-4">Design Thinking & Innovation</p>
+                            <p class="text-primary-text mb-4">This project identifies and addresses the gap in sports education among rural youth due to lack of infrastructure, awareness, and opportunities.</p>
+                        </div>
+                        <div class="p-6 bg-black/20 mt-auto">
+                            <button data-project="athletehub" class="learn-more-btn font-semibold text-accent-purple hover:text-accent-fuchsia transition-colors">Learn More &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- Project 3: Burglar Alarm -->
+                    <div class="project-card flex flex-col tilt-container from-accent-purple to-accent-fuchsia">
+                         <div class="p-8 flex-grow tilt-element">
+                            <h3 class="text-2xl font-bold mb-2 text-white">Burglar Alarm System</h3>
+                            <p class="text-sm text-secondary-text mb-4">Digital Design & Architecture</p>
+                            <p class="text-primary-text mb-4">A project combining hardware (PIR sensor, 555 Timer IC) with Logisim simulation to create a reliable, timed burglar alarm.</p>
+                        </div>
+                        <div class="p-6 bg-black/20 mt-auto">
+                            <button data-project="burglaralarm" class="learn-more-btn font-semibold text-accent-purple hover:text-accent-fuchsia transition-colors">Learn More &rarr;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 fade-in-section">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">Let's Collaborate</h2>
+                <div class="max-w-2xl mx-auto glass-card p-8 rounded-2xl">
+                    <p class="text-center text-secondary-text mb-8">Have an interesting project or an idea to discuss? I'm always open to new opportunities and collaborations. Let's build something amazing together.</p>
+                    <form id="contact-form">
+                        <div class="mb-5">
+                            <label for="name" class="block text-primary-text font-medium mb-2">Name</label>
+                            <input type="text" id="name" name="name" required class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-purple transition-all">
+                        </div>
+                        <div class="mb-5">
+                            <label for="email" class="block text-primary-text font-medium mb-2">Email</label>
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-purple transition-all">
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-primary-text font-medium mb-2">Message</label>
+                            <textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-purple transition-all"></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="bg-gradient-to-r from-accent-purple to-accent-fuchsia text-white font-bold py-3 px-10 rounded-full hover:scale-105 transition-transform duration-300 shadow-lg">
+                                Send Message
+                            </button>
+                        </div>
+                    </form>
+                    <div id="form-message" class="mt-6 text-center"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary-bg/30 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="https://github.com/ChidayPravinSai" target="_blank" class="text-secondary-text hover:text-accent-purple transition-colors"><i class="fab fa-github fa-lg"></i></a>
+                <a href="https://www.linkedin.com/in/pravin-sai-chiday-6bb9b7367/" target="_blank" class="text-secondary-text hover:text-accent-purple transition-colors"><i class="fab fa-linkedin fa-lg"></i></a>
+                <a href="your-link-here" target="_blank" class="text-secondary-text hover:text-accent-purple transition-colors"><i class="fab fa-twitter fa-lg"></i></a>
+                <a href="your-link-here" target="_blank" class="text-secondary-text hover:text-accent-purple transition-colors"><i class="fab fa-instagram fa-lg"></i></a>
+            </div>
+            <p class="text-secondary-text text-sm">&copy; 2025 Pravin Sai Chiday. Designed with passion.</p>
+        </div>
+    </footer>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="modal-overlay hidden opacity-0">
+        <div class="modal-content scale-95 opacity-0">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modal-title" class="text-2xl font-bold text-white"></h3>
+                <button id="modal-close-btn" class="text-2xl font-bold text-secondary-text hover:text-white transition-colors">&times;</button>
+            </div>
+            <div id="modal-body" class="text-secondary-text leading-relaxed">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Project Data ---
+        const projectDetails = {
+            echosense: {
+                title: "Ultrasonic Security System using Arduino",
+                description: `This project presents a cost-effective, DIY home security solution engineered with an Arduino microcontroller and an HC-SR04 ultrasonic sensor. The system is designed to detect motion within a predefined proximity by emitting ultrasonic waves and measuring their return time. Upon detecting an intrusion, it activates an immediate alert through an integrated buzzer and LED. Conceived for small-scale applications, the system is both scalable and customizable, demonstrating a practical and accessible application of fundamental electronics and embedded programming for real-world security enhancement.`
+            },
+            athletehub: {
+                title: "Addressing Lack of Sports Education in Rural Areas",
+                description: `This project applies the Design Thinking methodology to confront the disparity in sports and fitness education available to rural youth, a gap driven by inadequate infrastructure, awareness, and opportunities. Following the principles of Empathize, Define, Ideate, Prototype, and Test, the team formulated a strategy centered on accessible, low-cost solutions. The proposed interventions include mobile-first fitness programs, community-led sporting events, and strategic school partnerships, all aimed at fostering physical well-being and promoting active engagement within underserved communities.`
+            },
+            burglaralarm: {
+                title: "Burglar Alarm System using 555 Timer IC",
+                description: `This project integrates both hardware and simulation to develop a robust burglar alarm system. The physical prototype utilizes a PIR sensor for motion detection, a 555 Timer IC configured in monostable mode for timed alerts, and a buzzer for the audible alarm. In parallel, the system's logic is validated through a Logisim simulation employing SR Flip-Flops and logic gates. This dual approach creates an economical and reliable solution for enhancing access control, with practical applications in residential, retail, and office environments, effectively demonstrating principles of digital design.`
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Cursor Glow Logic ---
+            const cursorGlow = document.getElementById('cursor-glow');
+            window.addEventListener('mousemove', (e) => {
+                cursorGlow.style.left = `${e.clientX}px`;
+                cursorGlow.style.top = `${e.clientY}px`;
+            });
+
+            // --- 3D Tilt Effect Logic ---
+            const tiltElements = document.querySelectorAll('.tilt-element');
+            tiltElements.forEach(el => {
+                const height = el.clientHeight;
+                const width = el.clientWidth;
+                el.addEventListener('mousemove', (e) => {
+                    const x = e.layerX;
+                    const y = e.layerY;
+                    const rotateY = -1 * ((x - width / 2) / width) * 15; // Max 15 deg rotation
+                    const rotateX = ((y - height / 2) / height) * 15;
+                    el.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+                });
+                el.addEventListener('mouseout', () => {
+                    el.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+                });
+            });
+
+            // --- Modal Logic ---
+            const modal = document.getElementById('project-modal');
+            const modalContent = modal.querySelector('.modal-content');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const learnMoreBtns = document.querySelectorAll('.learn-more-btn');
+
+            function openModal(projectKey) {
+                const project = projectDetails[projectKey];
+                if (!project) return;
+                
+                modalTitle.textContent = project.title;
+                modalBody.innerHTML = project.description.replace(/\n/g, '<br>');
+                
+                // Add stagger classes before making modal visible
+                modalTitle.classList.add('stagger-in');
+                modalBody.classList.add('stagger-in');
+                modalTitle.style.animationDelay = '0.2s';
+                modalBody.style.animationDelay = '0.3s';
+
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalContent.classList.add('animated');
+                }, 10);
+            }
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    modalContent.classList.remove('animated');
+                    modalTitle.classList.remove('stagger-in');
+                    modalBody.classList.remove('stagger-in');
+                }, 300); // Match the CSS transition duration
+            }
+
+            learnMoreBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.currentTarget.parentElement.parentElement.classList.add('scale-95');
+                    setTimeout(() => {
+                        openModal(e.currentTarget.dataset.project);
+                        e.currentTarget.parentElement.parentElement.classList.remove('scale-95');
+                    }, 150);
+                });
+            });
+
+            modalCloseBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+            // --- Active Nav Link on Scroll ---
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('#nav-menu a');
+            window.addEventListener('scroll', () => {
+                let current = 'home';
+                sections.forEach(section => {
+                    if (pageYOffset >= section.offsetTop - 60) current = section.getAttribute('id');
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) link.classList.add('active');
+                });
+            });
+            
+            // --- Contact Form Submission ---
+            const contactForm = document.getElementById('contact-form');
+            const formMessage = document.getElementById('form-message');
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = new FormData(contactForm).get('name');
+                formMessage.textContent = `Thank you, ${name}! Your message has been sent.`;
+                formMessage.className = 'text-green-400 font-medium';
+                contactForm.reset();
+                setTimeout(() => { formMessage.textContent = ''; }, 5000);
+            });
+
+            // --- Fade In on Scroll ---
+            const faders = document.querySelectorAll('.fade-in-section');
+            const appearOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+            const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                });
+            }, appearOptions);
+            faders.forEach(fader => appearOnScroll.observe(fader));
+        });
+    </script>
+</body>
+</html>
